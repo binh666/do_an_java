@@ -8,7 +8,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Document</title>
+                <title>Table User</title>
                 <!-- Latest compiled and minified CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -39,26 +39,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1@gmail.com</td>
-                                        <td>Binh</td>
-                                        <td>
-                                            <button class="btn btn-success">View</button>
-                                            <button class="btn btn-warning mx-2">Update</button>
-                                            <button class="btn btn-danger">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>2@gmail.com</td>
-                                        <td>Tam</td>
-                                        <td>
-                                            <button class="btn btn-success">View</button>
-                                            <button class="btn btn-warning mx-2">Update</button>
-                                            <button class="btn btn-danger">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <c:forEach var="user" items="${users1}">
+
+                                        <tr>
+                                            <td>${user.id}</td>
+                                            <td>${user.email}</td>
+                                            <td>${user.fullName}</td>
+                                            <td>
+                                                <a href="/admin/user/${user.id}" class="btn btn-success">View</a>
+                                                <a href="/admin/user/update/${user.id}"
+                                                    class="btn btn-warning mx-2">Update</a>
+                                                <a href="/admin/user/delete/${user.id}"
+                                                    class="btn btn-danger">Delete</a>
+                                            </td>
+                                        </tr>
+
+                                    </c:forEach>
+
                                 </tbody>
                             </table>
 
