@@ -3,12 +3,9 @@ package vn.hoidanit.laptopshop.controller.admin;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.repository.UserRepository;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,11 +26,13 @@ import jakarta.servlet.ServletContext;
 public class UserController {
     private final UserService userService;
     private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UploadService uploadService, UserService userService, ServletContext servletContext) {
+    public UserController(UploadService uploadService, UserService userService, ServletContext servletContext,
+            PasswordEncoder passwordEncoder) {
         this.uploadService = uploadService;
         this.userService = userService;
-
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping("/")
@@ -91,8 +90,13 @@ public class UserController {
             @RequestParam("binhFile") MultipartFile file) {
 
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(binh.getPassword());
 
-        // this.userService.handleSaveUser(binh);
+        binh.setAvatar(avatar);
+        binh.setPassword(hashPassword);
+        binh.setRole(this.userService.getRoleByName(binh.getRole().getName()));
+        // save
+        this.userService.handleSaveUser(binh);
         return "redirect:/admin/user";
     }
 

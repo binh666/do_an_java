@@ -9,6 +9,7 @@ import vn.hoidanit.laptopshop.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
     User save(User binh);
 
     void deleteById(long id);
